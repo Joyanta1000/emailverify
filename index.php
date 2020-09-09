@@ -1,5 +1,11 @@
 <?php
 include_once("config.php");
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require 'C:\xampp\htdocs\emailsending\vendor\phpmailer\phpmailer\src\PHPMailer.php';
+require 'C:\xampp\htdocs\emailsending\vendor\phpmailer\phpmailer\src\Exception.php';
+require 'C:\xampp\htdocs\emailsending\vendor\phpmailer\phpmailer\src\SMTP.php';
+
 if(isset($_POST['submit']))
 {
 $name=$_POST['name'];
@@ -11,27 +17,37 @@ $query=mysqli_query($con,"insert into userregistration(name,email,password,activ
 	if($query)
 	{
 
-ini_set('SMTP','smtp.mailtrap.io');
-ini_set('smtp_port',25);
-ini_set('Username', 'joyanta955@gmail.com');
-ini_set('Password', 'password');  
+$mail = new PHPMailer();
+$mail->IsSMTP();
+$mail->Mailer = "smtp";
+$mail->SMTPDebug  = 1;  
+$mail->SMTPAuth   = TRUE;
+$mail->SMTPSecure = "tls";
+$mail->Port       = 587;
+$mail->Host       = "smtp.gmail.com";
+$mail->Username   = "joyanta955@gmail.com";
+$mail->Password   = "super666?&?";
+$mail->IsHTML(true);
+$mail->AddAddress($email, $name);
+$mail->SetFrom("joyanta955@gmail.com", "Joy");
+$mail->AddReplyTo("joyanta955@gmail.com", "Joy");
+$mail->AddCC($email, $name);
+$mail->Subject = "Email Verification";
+$content = "<html></body><div><div>Dear $name,</div></br></br><div style='padding-top:8px;'>Please click The following link For verifying and activation of your account</div>
+ <div style='padding-top:10px;'><a href='localhost/emailverify/email_verification.php?code=$activationcode'>Click Here</a></div>
+ </div>
+ </body></html>";
+$mail->MsgHTML($content); 
+if(!$mail->Send()) {
+  echo "Error while sending Email.";
+  var_dump($mail);
+} else {
+  echo "Email sent successfully";
+} 
 
-$to=$email;
-$msg= "Thanks for new Registration.";   
-$subject="Email verification (phpgurukul.com)";
-$headers .= "MIME-Version: 1.0"."\r\n";
-$headers .= 'Content-type: text/html; charset=iso-8859-1'."\r\n";
-$headers .= 'From:PHPGurukul | Programing Blog <info@phpgurukul.com>'."\r\n";
-        
-$ms.="<html></body><div><div>Dear $name,</div></br></br>";
-$ms.="<div style='padding-top:8px;'>Please click The following link For verifying and activation of your account</div>
-<div style='padding-top:10px;'><a href='localhost/demos/emailverify/email_verification.php?code=$activationcode'>Click Here</a></div>
-<div style='padding-top:4px;'>Powered by <a href='phpgurukul.com'>phpgurukul.com</a></div></div>
-</body></html>";
-mail($to,$subject,$ms,$headers);
 echo "<script>alert('Registration successful, please verify in the registered Email-Id');</script>";
-echo "<script>window.location = 'login.php';</script>";;
-}
+echo "<script>window.location = 'login.php';</script>";}
+
 else
 {
 echo "<script>alert('Data not inserted');</script>";
@@ -43,7 +59,7 @@ echo "<script>alert('Data not inserted');</script>";
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<meta charset="utf-8">
-		<title>PHP GURUKUL | PHP Email Verification Script </title>
+		<title>PHP Email Verification Script </title>
 		<meta name="generator" content="Bootply" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<link href="css/bootstrap.min.css" rel="stylesheet">
@@ -53,36 +69,7 @@ echo "<script>alert('Data not inserted');</script>";
 		<link href="css/styles.css" rel="stylesheet">
 	</head>
 	<body>
-<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-	<div class="navbar-header">
-        <a class="navbar-brand" rel="home" href="http://www.phpgurukul.com/">Home</a>
-		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-		<span class="sr-only">Toggle navigation</span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-		</button>
-	</div>
-	<div class="collapse navbar-collapse">
-		<ul class="nav navbar-nav">
-			<li><a href="http://www.phpgurukul.com/all-demos/">All Demos</a></li>
-			<li><a href="http://www.phpgurukul.com/category/php-projects/">Free Projects</a></li>
-			<li><a href="http://www.phpgurukul.com/contact-us/">Contact</a></li>
-			<li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tutorials <b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <li><a href="http://www.phpgurukul.com/category/php/">PHP </a></li>
-                <li><a href="http://www.phpgurukul.com/category/php-oops-concepts/">PHP OOPs</a></li>
-                <li class="divider"></li>
-                <li><a href="http://www.phpgurukul.com/category/php-data-object/">PDO</a></li>
-                <li class="divider"></li>
-                <li><a href="http://www.phpgurukul.com/category/inteview-ques-ans/">Interview QA</a></li>
-              </ul>
-            </li>
-		</ul>
-		
-	</div>
-</nav>
+
 
 <div class="container-fluid">
   
