@@ -14,7 +14,7 @@ $query=mysqli_query($con,"insert into userregistration(name,email,password,activ
 ini_set('SMTP','smtp.mailtrap.io');
 ini_set('smtp_port',25);
 ini_set('Username', 'joyanta955@gmail.com');
-ini_set('Password', 'super666?&?');  
+ini_set('Password', 'password');  
 
 $to=$email;
 $msg= "Thanks for new Registration.";   
