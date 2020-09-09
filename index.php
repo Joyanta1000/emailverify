@@ -26,7 +26,7 @@ $mail->SMTPSecure = "tls";
 $mail->Port       = 587;
 $mail->Host       = "smtp.gmail.com";
 $mail->Username   = "example@gmail.com";
-$mail->Password   = "youremailaccountpassword";
+$mail->Password   = "createdappspassword";
 $mail->IsHTML(true);
 $mail->AddAddress($email, $name);
 $mail->SetFrom("joyanta955@gmail.com", "Joy");
