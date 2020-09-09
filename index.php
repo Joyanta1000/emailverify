@@ -26,18 +26,15 @@ $mail->SMTPSecure = "tls";
 $mail->Port       = 587;
 $mail->Host       = "smtp.gmail.com";
 $mail->Username   = "joyanta955@gmail.com";
-$mail->Password   = "super666?&?";
+$mail->Password   = "youremailaccountpassword";
 $mail->IsHTML(true);
 $mail->AddAddress($email, $name);
 $mail->SetFrom("joyanta955@gmail.com", "Joy");
 $mail->AddReplyTo("joyanta955@gmail.com", "Joy");
 $mail->AddCC($email, $name);
 $mail->Subject = "Email Verification";
-$content = "<html></body><div><div>Dear $name,</div></br></br><div style='padding-top:8px;'>Please click The following link For verifying and activation of your account</div>
- <div style='padding-top:10px;'><a href='localhost/emailverify/email_verification.php?code=$activationcode'>Click Here</a></div>
- </div>
- </body></html>";
-$mail->MsgHTML($content); 
+$content = "<a href='http://localhost/emailverify/email_verification.php?code=$activationcode'>Click Here To Verify</a>";
+$mail->MsgHTML($content);
 if(!$mail->Send()) {
   echo "Error while sending Email.";
   var_dump($mail);
